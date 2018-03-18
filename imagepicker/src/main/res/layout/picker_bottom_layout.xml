@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottombar_height">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:alpha="0.2" />
+
+    <LinearLayout
+        android:id="@+id/original_container"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:id="@+id/cropImage"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:text="Crop" />
+
+        <TextView
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:id="@+id/FilterImage"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Filter" />
+
+        <!--<CheckBox
+            android:id="@+id/original_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:buttonTint="#48baf3"
+            android:checked="false"/>
+
+        <TextView
+            android:id="@+id/original_size"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="7dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray"
+            android:textSize="16dp"/>-->
+
+        <TextView
+            android:textColor="@color/white"
+            android:id="@+id/send"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:text="Share"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">imagePicker</string>
+    <string name="general_ok">Done</string>
+    <string name="general_cancel">Cancel</string>
+    <string name="general_send">Send</string>
+    <string name="general_share">Share</string>
+    <string name="general_original">Artwork</string>
+    <string name="bracket_str">(%1$s)</string>
+    <string name="bracket_num">(%1$d)</string>
+    <string name="error_maximun_nine_photos">Select up to (%1$d) photos</string>
+    <string name="general_all_pictures">All photos</string>
+</resources>

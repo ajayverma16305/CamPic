@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f3f4f7</color>
+    <color name="colorPrimaryDark">#fefefe</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#EFEFEF</color>
+
+    <!--<color name="background">#070a0f</color>-->
+    <color name="background">#ffffff</color>
+    <color name="fab">#00bbda</color>
+
+    <color name="ThemeLightColor">#F5BE0E</color>
+    <color name="ThemeBGColor">#FFFFFF</color>
+    <color name="ThemeBGColor2">#EFEFEF</color>
+    <color name="yellow">#c1d82f</color>
+
+    <color name="TextGreenColor">#50AB54</color>
+    <color name="TextRedColor">#EB483C</color>
+    <color name="TextBlueColor">#007AFF</color>
+    <color name="TextGrayColor">#8E8E93</color>
+
+    <color name="FlatUIMidnightBlueColor">#2C3E50</color>
+    <color name="GoogleDesignDarkGreenColor">#00796B</color>
+
+    <color name="black">#000000</color>
+    <color name="lightGray">#d3d3d3</color>
+
+    <color name="alertColor">#F9F9F9</color>
+    <color name="transparent">#00000000</color>
+    <color name="hintColor">#808080</color>
+    <color name="settingHeaderBackground">#EFEFEF</color>
+
+    <color name="statusBarColor">@color/blue</color>
+    <color name="navigationBarColor">@android:color/black</color>
+    <color name="drawerArrowColor">@android:color/white</color>
+    <color name="blue">#303F9F</color>
+
+    <color name="accent_color">@color/blue</color>
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#f64c73</color>
+    <color name="bg_screen2">#20d2bb</color>
+    <color name="bg_screen3">#3395ff</color>
+    <color name="bg_screen4">#d1395c</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#d1395c</color>
+    <color name="dot_dark_screen2">#14a895</color>
+    <color name="dot_dark_screen3">#2278d4</color>
+    <color name="dot_dark_screen4">#a854d4</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+    <color name="dot_light_screen2">#8cf9eb</color>
+    <color name="dot_light_screen3">#93c6fd</color>
+    <color name="dot_light_screen4">#e4b5fc</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_light_screen1</item>
+    </array>
+</resources>

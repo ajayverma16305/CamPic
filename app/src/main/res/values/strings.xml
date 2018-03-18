@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Cam Pic</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Welcome</string>
+    <string name="slide_1_desc">The easiest way to click pictures and see all your stuff at one place!</string>
+
+    <string name="slide_1_allow">Welcome</string>
+    <string name="slide_1_allow_desc">Lets get Started</string>
+
+    <string name="slide_2_title">Camera</string>
+    <string name="slide_2_desc">Allow Cam Pic access to Camera Permission!</string>
+
+    <string name="slide_3_title">Storage</string>
+    <string name="slide_3_desc">Allow Cam Pic access to Storage Permission!</string>
+
+    <string name="slide_4_title">Congratulations!</string>
+    <string name="slide_4_desc">All Done.</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="general_max_per_image"> This image is too large, exceeding the upper limit of 200k.</string>
+</resources>
