@@ -13,7 +13,6 @@ public interface ImageLoader {
 
   void bindImage(ImageView imageView, Uri uri);
 
-
   ImageView createImageView(Context context);
 
   ImageView createFakeImageView(Context context);

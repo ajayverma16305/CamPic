@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imnjh.imagepicker.R;
@@ -18,15 +19,17 @@ import com.imnjh.imagepicker.R;
  */
 public class PickerBottomLayout extends FrameLayout {
 
-  public TextView cropImage;
+  public ImageView cropImage;
 
-  public TextView filterImage;
+  public ImageView filterImage;
 
   public TextView originalSize;
 
   public View originalContainer;
 
-  public TextView send;
+  public ImageView send;
+
+  public ImageView delete;
 
   private int pickTextRes = R.string.general_share;
 
@@ -45,13 +48,14 @@ public class PickerBottomLayout extends FrameLayout {
 
   private void init(Context context) {
     inflate(context, R.layout.picker_bottom_layout, this);
-    send = (TextView) findViewById(R.id.send);
+    send = (ImageView) findViewById(R.id.send);
     originalContainer = findViewById(R.id.original_container);
-    cropImage = (TextView) findViewById(R.id.cropImage);
-    filterImage = (TextView) findViewById(R.id.FilterImage);
+    cropImage = (ImageView) findViewById(R.id.cropImage);
+    filterImage = (ImageView) findViewById(R.id.FilterImage);
+    delete = (ImageView) findViewById(R.id.delete);
   }
 
-  public void updateSelectedCount(int count) {
+  /*public void updateSelectedCount(int count) {
     if (count == 0) {
       send.setTextColor(getResources().getColor(R.color.gray));
       send.setEnabled(false);
@@ -64,7 +68,7 @@ public class PickerBottomLayout extends FrameLayout {
           + getResources().getString(R.string.bracket_num, count));
       originalContainer.setVisibility(View.VISIBLE);
     }
-  }
+  }*/
 
   public void updateSelectedSize(String size) {
     if (TextUtils.isEmpty(size)) {

@@ -32,14 +32,10 @@ public class InnerCache extends Cache {
     return cachePath;
   }
 
-  private String getInnerCacheDir(Context context) {
+  public String getInnerCacheDir(Context context) {
     String cachePath;
-    if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-        || !Environment.isExternalStorageRemovable()) {
-      cachePath = context.getExternalCacheDir().getPath();
-    } else {
-      cachePath = context.getCacheDir().getPath();
-    }
+    cachePath = Environment.getExternalStorageDirectory() + File.separator +
+            Environment.DIRECTORY_DCIM + File.separator + CacheManager.ROOT_STORE + File.separator + "CamPicEdited" + File.separator;
     return cachePath;
   }
 
@@ -51,7 +47,7 @@ public class InnerCache extends Cache {
 
   @Override
   public String getAbsolutePath(String fileName) {
-    return getDirectory().getAbsolutePath() + File.separator + fileName;
+    return getDirectory().getAbsolutePath() + File.separator /*+ ((System.currentTimeMillis()) + fileName)*/;
   }
 
   @Override

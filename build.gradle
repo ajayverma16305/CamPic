@@ -26,6 +26,9 @@ ext {
     javaSourceCompatibility = JavaVersion.VERSION_1_8
     javaTargetCompatibility = JavaVersion.VERSION_1_8
 
+    junitVersion = "4.12"
+    testRunnerVersion = "1.0.1"
+    espressoCoreVersion = "3.0.1"
     supportVersion = "26.1.0"
     vectorDrawableVersion = "26.1.0"
     designVersion = "26.1.0"
@@ -35,6 +38,8 @@ ext {
     recyclerViewVersion = "26.1.0"
     glideVersion = "3.7.0"
     freschoVersion = "0.10.0+"
+    systemBarTintVersion = "1.0.3"
+
 }
 
 allprojects {

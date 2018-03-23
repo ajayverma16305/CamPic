@@ -116,8 +116,7 @@ public class PhotoController extends BaseLoaderController {
    * 
    */
   public void loadAllPhoto(Context context) {
-    Album album = new Album(Album.ALBUM_ID_ALL, -1,
-        context.getString(Album.ALBUM_NAME_ALL_RES_ID), 0);
+    Album album = new Album(Album.ALBUM_ID_ALL, -1, context.getString(Album.ALBUM_NAME_ALL_RES_ID), 0);
     load(album);
   }
 

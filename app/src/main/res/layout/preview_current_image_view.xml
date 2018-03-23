@@ -3,13 +3,13 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
-android:layout_height="320dp">
+android:layout_height="360dp">
 
 <com.androidteam.campic.Helper.TouchImageView
     android:background="@color/black"
     android:id="@+id/currentImageView"
     android:layout_width="0dp"
-    android:layout_height="320dp"
+    android:layout_height="360dp"
     android:layout_marginEnd="0dp"
     android:layout_marginStart="0dp"
     android:layout_marginTop="0dp"

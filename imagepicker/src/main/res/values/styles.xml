@@ -20,6 +20,15 @@
         <item name="elevation">0dp</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
     <style name="CommonSpinner" parent="Widget.AppCompat.Spinner">
         <item name="android:background">@drawable/bg_toolbar_spinner</item>
         <item name="android:dropDownSelector">@drawable/bs_selectable</item>
@@ -33,7 +42,6 @@
         <item name="android:backgroundTint">@color/light_black</item>
         <item name="android:popupBackground">@drawable/bg_spinner_default</item>
     </style>
-
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 

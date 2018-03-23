@@ -2,6 +2,7 @@ package com.androidteam.campic.MainModule.imageloader;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.widget.ImageView;
 import com.androidteam.campic.MainModule.AppApplication.CamPicApplication;
 import com.androidteam.campic.MainModule.cache.CacheManager;
@@ -16,6 +17,9 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.imnjh.imagepicker.ImageLoader;
+
+import java.io.File;
+
 import okhttp3.OkHttpClient;
 
 public class FrescoImageLoader implements ImageLoader {
@@ -25,13 +29,14 @@ public class FrescoImageLoader implements ImageLoader {
   }
 
   private void init() {
+    File file = new File(Environment.getExternalStorageDirectory() + File.separator + CacheManager.ROOT_STORE);
+
     DiskCacheConfig diskCacheConfig =
         DiskCacheConfig
             .newBuilder(CamPicApplication.getAppContext())
-            .setBaseDirectoryPath(
-                CacheManager.getInstance().getImageCache()
-                    .getDirectory())
+            .setBaseDirectoryPath(file)
             .build();
+
     ImagePipelineConfig config =
         OkHttpImagePipelineConfigFactory
             .newBuilder(

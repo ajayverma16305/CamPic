@@ -41,13 +41,7 @@ public class SystemUtil {
    * @return
    */
   public static File getStoreDir(Context applicationContext) {
-    File dataDir = null;
-    if (Environment.MEDIA_MOUNTED.equalsIgnoreCase(Environment
-        .getExternalStorageState())) {
-      dataDir = Environment.getExternalStorageDirectory();
-    } else {
-      dataDir = Environment.getExternalStorageDirectory();
-    }
+    File dataDir = Environment.getExternalStorageDirectory();
     return dataDir;
   }
 

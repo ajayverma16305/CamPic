@@ -16,8 +16,8 @@ import com.imnjh.imagepicker.model.Album;
 public class AlbumLoader extends CursorLoader {
 
   private static final String[] PROJECTION = {MediaStore.Images.Media.BUCKET_ID,
-      MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media._ID,
-      "count(bucket_id) as cou"};
+                              MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media._ID,
+                              "count(bucket_id) as cou"};
   private static final String BUCKET_GROUP_BY = ") GROUP BY  1,(2";
   private static final String BUCKET_ORDER_BY = "MAX(datetaken) DESC";
   private static final String MEDIA_ID_DUMMY = String.valueOf(-1);
@@ -33,11 +33,9 @@ public class AlbumLoader extends CursorLoader {
         BUCKET_ORDER_BY);
   }
 
-  private AlbumLoader(Context context, Uri uri, String[] projection, String selection,
-      String[] selectionArgs, String sortOrder) {
+  private AlbumLoader(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
     super(context, uri, projection, selection, selectionArgs, sortOrder);
   }
-
 
   @Override
   public Cursor loadInBackground() {

@@ -1,11 +1,15 @@
 package com.androidteam.campic.SplashScreen;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.androidteam.campic.Helper.FirstLaunchPrefManager;
 import com.androidteam.campic.MainModule.HomeActivity;
+import com.androidteam.campic.MainModule.cache.CacheManager;
 import com.androidteam.campic.R;
+
+import java.io.File;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -13,6 +17,12 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator + CacheManager.ROOT_STORE);
+
+        if(!file.exists()){
+            file.mkdir();
+        }
 
         // Checking for first time launch - before calling setContentView()
         FirstLaunchPrefManager prefManager = new FirstLaunchPrefManager(this);

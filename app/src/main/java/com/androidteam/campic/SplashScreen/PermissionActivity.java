@@ -35,6 +35,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class PermissionActivity extends AppCompatActivity {
 
@@ -57,6 +58,14 @@ public class PermissionActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_permission);
 
+        // create our manager instance after the content view is set
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // enable navigation bar tint
+        tintManager.setNavigationBarTintEnabled(true);
+        // set a custom tint color for all system bars
+
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnNext = (Button) findViewById(R.id.btn_next);
@@ -73,9 +82,6 @@ public class PermissionActivity extends AppCompatActivity {
         // adding bottom dots
         addBottomDots(0);
 
-        // making notification bar transparent
-        changeStatusBarColor();
-
         ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
@@ -90,7 +96,7 @@ public class PermissionActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current,true);
 
-                    setViewPagerDisable(current == 1 ? 1 : 2);
+                    setViewPagerDisable(current >= 1 ? 1 : 2);
 
                     if(current == 2){
                         askForCameraPermission();
@@ -271,7 +277,7 @@ public class PermissionActivity extends AppCompatActivity {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            setViewPagerDisable(position == 1 ? 1 : 2);
+            setViewPagerDisable(position >= 1 ? 1 : 2);
         }
 
         @Override
@@ -279,16 +285,6 @@ public class PermissionActivity extends AppCompatActivity {
 
         }
     };
-
-    /**
-     * Making notification bar transparent
-     */
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
-    }
 
     /**
      * View pager adapter

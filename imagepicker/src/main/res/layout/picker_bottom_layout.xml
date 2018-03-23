@@ -14,21 +14,22 @@
         android:id="@+id/original_container"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="4"
         android:layout_height="match_parent">
 
-        <TextView
+        <ImageView
             android:textColor="@color/white"
             android:gravity="center"
             android:id="@+id/cropImage"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textSize="18sp"
+            android:src="@drawable/ic_crop_white_24dp"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:text="Crop" />
+            android:contentDescription="Crop" />
 
-        <TextView
+        <ImageView
             android:textColor="@color/white"
             android:gravity="center"
             android:textSize="18sp"
@@ -36,37 +37,32 @@
             android:layout_gravity="center_vertical"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:src="@drawable/ic_tune_white_24dp"
             android:layout_height="wrap_content"
-            android:text="Filter" />
+            android:contentDescription="Filter" />
 
-        <!--<CheckBox
-            android:id="@+id/original_checkbox"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:textColor="@color/white"
+            android:id="@+id/delete"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:buttonTint="#48baf3"
-            android:checked="false"/>
+            android:src="@drawable/ic_delete_white_24dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="send"/>
 
-        <TextView
-            android:id="@+id/original_size"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="left|top"
-            android:layout_marginLeft="7dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/gray"
-            android:textSize="16dp"/>-->
-
-        <TextView
+        <ImageView
             android:textColor="@color/white"
             android:id="@+id/send"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/ic_share_white_24dp"
+            android:layout_gravity="center_vertical"
             android:text="Share"
-            android:textSize="18dp"/>
+            android:contentDescription="18dp"/>
 
     </LinearLayout>
 </FrameLayout>

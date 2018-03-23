@@ -27,17 +27,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.imnjh.imagepicker.BuildConfig;
 import com.imnjh.imagepicker.FileChooseInterceptor;
 import com.imnjh.imagepicker.PickerAction;
 import com.imnjh.imagepicker.R;
@@ -45,7 +41,6 @@ import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.util.FileUtil;
 import com.imnjh.imagepicker.util.ImageUtil;
 import com.imnjh.imagepicker.util.SystemUtil;
-import com.imnjh.imagepicker.widget.CheckBox;
 import com.imnjh.imagepicker.widget.PickerBottomLayout;
 import com.imnjh.imagepicker.widget.PicturePreviewPageView;
 import com.imnjh.imagepicker.widget.PreviewViewPager;
@@ -59,6 +54,7 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
 
   public static final String KEY_URIS = "picture_uri";
   public static final String KEY_SELECTED = "picture_selected";
+  public static final String KEY_DELETED = "picture_deleted";
   public static final String KEY_SELECTED_ORIGINAL = "select_original";
   public static final String KEY_CURRENT_POSITION = "current_position";
   public static final String KEY_MAX_COUNT = "max_count";
@@ -74,8 +70,7 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
   private static final long IMAGE_DISMISS_DURATION = 230L;
 
   public static final int REQUEST_CODE_CROP_IMAGE = 101;
-  public static final String AVATAR_FILE_NAME = "avatar.png";
-  public static final String KEY_AVATAR_FILE_NAME = "avtar_file_path";
+  public static final String KEY_AVATAR_FILE_NAME = "crop_file_path";
   public String avatarPath = "";
 
   private boolean initImageLoaded;
@@ -230,8 +225,6 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     titleView = (TextView) findViewById(R.id.title);
     checkBoxText = (TextView) findViewById(R.id.checkbox);
-    int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
-    getWindow().getDecorView().setSystemUiVisibility(uiOptions);
 
     previewBottomLayout = (PickerBottomLayout) findViewById(R.id.picker_bottom);
     FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
@@ -246,18 +239,9 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
     max = getIntent().getIntExtra(KEY_MAX_COUNT, 10000);
     rowCount = getIntent().getIntExtra(KEY_ROW_COUNT, 4);
     fileChooseInterceptor = getIntent().getParcelableExtra(KEY_FILE_CHOOSE_INTERCEPTOR);
-    ArrayList<Uri> uriParam = uris;
-    ArrayList<String> selectedParam = selected;
     selectOriginal = getIntent().getBooleanExtra(KEY_SELECTED_ORIGINAL, false);
     initPosition = getIntent().getIntExtra(KEY_CURRENT_POSITION, 0);
     avatarPath = getIntent().getStringExtra(KEY_AVATAR_FILE_NAME);
-
-    if (selectedParam != null) {
-      selected.addAll(selectedParam);
-    }
-    if (uriParam != null) {
-      uris.addAll(uriParam);
-    }
     previewAdapter = new PreviewAdapter();
     viewPager.setAdapter(previewAdapter);
     viewPager.addOnPageChangeListener(pageChangeListener);
@@ -285,6 +269,16 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
         cropImageAction();
       }
     });
+
+    previewBottomLayout.delete.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+          showDeleteDialog(PickerPreviewActivity.this);
+      }
+    });
+
+
+
     updateTitle();
     updateBottomBar();
   }
@@ -402,7 +396,7 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
       @Override
       public void onAnimationEnd(Animator animation) {
         exitAnimationRunning = false;
-        setResultAndFinish(Activity.RESULT_CANCELED);
+        setResultAndFinish(Activity.RESULT_CANCELED,true);
       }
     });
     exitAnimator.start();
@@ -495,8 +489,6 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
 
   private void hideTitleBar() {
    try {
-     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
      toolbar.animate().translationY(-toolbar.getHeight())
              .setInterpolator(new AccelerateInterpolator(2));
    } catch ( Exception e){
@@ -506,8 +498,6 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
 
   private void showTitleBar() {
     try {
-      getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
       toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     } catch ( Exception e){
       Log.d("Tag",e.getMessage());
@@ -553,23 +543,25 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
     super.onDestroy();
   }
 
-  private void setResultAndFinish(int resultCode) {
-   /* boolean original = previewBottomLayout.originalCheckbox.isChecked();
+  private void setResultAndFinish(int resultCode,boolean finish) {
+    /*boolean original = previewBottomLayout.originalCheckbox.isChecked();
     if (fileChooseInterceptor != null
         && !fileChooseInterceptor.onFileChosen(this, selected, original, resultCode, this)) {
       // Prevent finish if interceptor returns false.
       return;
-    }
-    proceedResultAndFinish(selected, original, resultCode);*/
+    }*/
+    proceedResultAndFinish(selected, finish, resultCode);
   }
 
   @Override
-  public void proceedResultAndFinish(ArrayList<String> selected, boolean original, int resultCode) {
+  public void proceedResultAndFinish(ArrayList<String> selected, boolean finish, int resultCode) {
     Intent intent = new Intent();
-    intent.putStringArrayListExtra(KEY_SELECTED, selected);
-    intent.putExtra(KEY_SELECTED_ORIGINAL, original);
+    intent.setAction(KEY_DELETED);
     setResult(resultCode, intent);
-    finish();
+
+    if(finish){
+        this.finish();
+    }
   }
 
   private void updateBottomBar() {
@@ -582,24 +574,48 @@ public class PickerPreviewActivity extends BasePickerActivity implements PickerA
   }
 
   private void cropImageAction() {
-    CropImageActivity.startImageCrop(this,
-            uris.get(viewPager.getCurrentItem()).getPath()
-           , REQUEST_CODE_CROP_IMAGE,
-            avatarPath);
+      String fileName = File.separator + ((System.currentTimeMillis()) + "_new_cropped.jpg");
+      String newCroppedPath = avatarPath + fileName;
+
+      CropImageActivity.startImageCrop(this,
+              uris.get(viewPager.getCurrentItem()).getPath()
+              , REQUEST_CODE_CROP_IMAGE,
+              newCroppedPath);
   }
 
   private boolean isCountOver() {
     return selected.size() >= max;
   }
 
-  private static void showMaxDialog(Context context, int max) {
+  private void showDeleteDialog(Context context) {
     new AlertDialog.Builder(context)
-        .setMessage(context.getResources().getString(R.string.error_maximun_nine_photos, max))
-        .setPositiveButton(R.string.general_ok, new DialogInterface.OnClickListener() {
+        .setMessage(context.getResources().getString(R.string.error_maximun_nine_photos))
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             dialog.dismiss();
+              int currentPosition = viewPager.getCurrentItem();
+              Uri curUriInfo = uris.get(currentPosition);
+              File file = new File(curUriInfo.getPath());
+
+              if(FileUtil.exist(curUriInfo.getPath())) {
+                FileUtil.deleteFile(file);
+                  uris.remove(currentPosition);
+                  previewAdapter.notifyDataSetChanged();
+                  if (currentPosition == uris.size() - 1) {
+                      onBackPressed();
+                  } else {
+                      viewPager.setCurrentItem(currentPosition + 1);
+                  }
+
+                  setResultAndFinish(RESULT_OK,false);
+              }
           }
-        }).show();
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+        }
+    }).show();
   }
 }

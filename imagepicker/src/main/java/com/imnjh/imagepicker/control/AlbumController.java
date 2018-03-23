@@ -19,14 +19,12 @@ import com.imnjh.imagepicker.model.Album;
 /**
  * Created by Martin on 2017/1/17.
  */
-public class AlbumController extends BaseLoaderController
-    implements AdapterView.OnItemSelectedListener {
+public class AlbumController extends BaseLoaderController implements AdapterView.OnItemSelectedListener {
 
   private AlbumAdapter albumAdapter;
   private OnDirectorySelectListener directorySelectListener;
 
-  public void onCreate(Activity activity, AppCompatSpinner spinner,
-      OnDirectorySelectListener directorySelectListener) {
+  public void onCreate(Activity activity, AppCompatSpinner spinner, OnDirectorySelectListener directorySelectListener) {
     super.onCreate(activity);
     this.albumAdapter = new AlbumAdapter(activity, null);
     this.directorySelectListener = directorySelectListener;

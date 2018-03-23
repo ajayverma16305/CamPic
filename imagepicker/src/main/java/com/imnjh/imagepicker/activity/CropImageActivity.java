@@ -154,8 +154,7 @@ public class CropImageActivity extends BasePickerActivity {
 
       @Override
       protected Boolean doInBackground(Void... params) {
-        long ts =  System.currentTimeMillis();
-        return ImageUtil.saveBitmap(bitmap,ts + filePath, Bitmap.CompressFormat.JPEG, 85);
+        return ImageUtil.saveBitmap(bitmap,filePath, Bitmap.CompressFormat.JPEG, 85);
       }
 
       @Override

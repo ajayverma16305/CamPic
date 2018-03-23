@@ -23,7 +23,6 @@ import com.androidteam.campic.MainModule.adapters.PreviewAdapter;
 import com.androidteam.campic.MainModule.cache.CacheManager;
 import com.androidteam.campic.R;
 import com.imnjh.imagepicker.CapturePhotoHelper;
-import com.imnjh.imagepicker.FileChooseInterceptor;
 import com.imnjh.imagepicker.PhotoLoadListener;
 import com.imnjh.imagepicker.PickerAction;
 import com.imnjh.imagepicker.SImagePicker;
@@ -38,27 +37,16 @@ import com.imnjh.imagepicker.util.CollectionUtils;
 import com.imnjh.imagepicker.widget.GridInsetDecoration;
 import com.imnjh.imagepicker.widget.PreviewViewPager;
 import com.imnjh.imagepicker.widget.SquareRelativeLayout;
-import java.io.File;
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GalleryFragment extends Fragment implements PickerAction{
+public class GalleryFragment extends Fragment implements PickerAction {
 
-    public static final String EXTRA_RESULT_SELECTION = "EXTRA_RESULT_SELECTION";
-    public static final String EXTRA_RESULT_ORIGINAL = "EXTRA_RESULT_ORIGINAL";
-    public static final String PARAM_MODE = "PARAM_MODE";
-    public static final String PARAM_MAX_COUNT = "PARAM_MAX_COUNT";
-    public static final String PARAM_SELECTED = "PARAM_SELECTED";
-    public static final String PARAM_ROW_COUNT = "PARAM_ROW_COUNT";
-    public static final String PARAM_SHOW_CAMERA = "PARAM_SHOW_CAMERA";
     public static final String PARAM_CUSTOM_PICK_TEXT_RES = "PARAM_CUSTOM_PICK_TEXT_RES";
-    public static final String PARAM_FILE_CHOOSE_INTERCEPTOR = "PARAM_FILE_CHOOSE_INTERCEPTOR";
-
     public static final int REQUEST_CODE_PICKER_PREVIEW = 100;
     public static final int REQUEST_CODE_CROP_IMAGE = 101;
-    public static final String AVATAR_FILE_NAME = "avatar.png";
 
     private Activity activity;
     private RecyclerView recyclerView;
@@ -69,19 +57,13 @@ public class GalleryFragment extends Fragment implements PickerAction{
     private int maxCount;
     private int mode;
     private int rowCount;
-    private boolean showCamera = false;
-    private String avatarFilePath;
     private @StringRes
     int pickRes;
-    private @StringRes int pickNumRes;
-    private FileChooseInterceptor fileChooseInterceptor;
-    private CapturePhotoHelper capturePhotoHelper;
-
     private AppCompatSpinner albumSpinner;
     private final PhotoController photoController = new PhotoController();
     private final AlbumController albumController = new AlbumController();
-    private final AlbumController.OnDirectorySelectListener directorySelectListener =
-            new AlbumController.OnDirectorySelectListener() {
+
+    private final AlbumController.OnDirectorySelectListener directorySelectListener = new AlbumController.OnDirectorySelectListener() {
                 @Override
                 public void onSelect(Album album) {
                     photoController.resetLoad(album);
@@ -93,65 +75,42 @@ public class GalleryFragment extends Fragment implements PickerAction{
                 }
             };
 
-    private final PhotoAdapter.OnPhotoActionListener selectionChangeListener =
-            new PhotoAdapter.OnPhotoActionListener() {
+    private final PhotoAdapter.OnPhotoActionListener selectionChangeListener = new PhotoAdapter.OnPhotoActionListener() {
 
                 @Override
                 public void onSelect(String filePath) {
+                    Log.d("selectionChangeListener","select");
                 }
 
                 @Override
                 public void onDeselect(String filePath) {
-                   // refreshCheckbox();
+                    Log.d("selectionChangeListener","onDeselect");
                 }
 
                 @Override
                 public void onPreview(final int position, Photo photo, final View view) {
-                    if(null != currentImageViewPager){
-                        currentImageViewPager.setCurrentItem(position,true);
-                    }
-
-                    if (mode == SImagePicker.MODE_IMAGE) {
-                        photoController.getAllPhoto(new PhotoLoadListener() {
-                            @Override
-                            public void onLoadComplete(ArrayList<Uri> photoUris) {
-                                if (!CollectionUtils.isEmpty(photoUris)) {
-                                    PickerPreviewActivity.startPicturePreviewFromPicker(activity,
-                                            PickerPreviewActivity.uris = photoUris,
-                                            PickerPreviewActivity.selected = photoController.getSelectedPhoto(), position,
-                                            true, maxCount, rowCount,
-                                            pickRes, PickerPreviewActivity.AnchorInfo.newInstance(view),
-                                            REQUEST_CODE_PICKER_PREVIEW, CacheManager.getInstance().getImageInnerCache()
-                                                    .getAbsolutePath(AVATAR_FILE_NAME));
-                                }
+                    photoController.getAllPhoto(new PhotoLoadListener() {
+                        @Override
+                        public void onLoadComplete(ArrayList<Uri> photoUris) {
+                            if (!CollectionUtils.isEmpty(photoUris)) {
+                                PickerPreviewActivity.startPicturePreviewFromPicker(activity,
+                                        PickerPreviewActivity.uris = photoUris,
+                                        PickerPreviewActivity.selected = photoController.getSelectedPhoto(), position,
+                                        true, maxCount, rowCount,
+                                        pickRes, PickerPreviewActivity.AnchorInfo.newInstance(view), REQUEST_CODE_PICKER_PREVIEW,
+                                        CacheManager
+                                                .getInstance()
+                                                .getImageInnerCache().toString());
                             }
-
-                            @Override
-                            public void onLoadError() {
-
+                            if (null != currentImageViewPager) {
+                                currentImageViewPager.setCurrentItem(position, true);
                             }
-                        });
-                    } else if (mode == SImagePicker.MODE_AVATAR) {
-                        photoController.getAllPhoto(new PhotoLoadListener() {
-                            @Override
-                            public void onLoadComplete(ArrayList<Uri> photoUris) {
-                                if (!CollectionUtils.isEmpty(photoUris)) {
-                                    PickerPreviewActivity.startPicturePreviewFromPicker(activity,
-                                            PickerPreviewActivity.uris = photoUris,
-                                            PickerPreviewActivity.selected =
-                                                    photoController.getSelectedPhoto(), position,
-                                            true, maxCount, rowCount,
-                                            pickRes, PickerPreviewActivity.AnchorInfo.newInstance(view),
-                                            REQUEST_CODE_PICKER_PREVIEW, CacheManager.getInstance().getImageInnerCache()
-                                                    .getAbsolutePath(AVATAR_FILE_NAME));
-                                }
-                            }
+                        }
 
-                            @Override
-                            public void onLoadError() {
-                            }
-                        });
-                    }
+                        @Override
+                        public void onLoadError() {
+                        }
+                    });
                 }
             };
 
@@ -161,19 +120,19 @@ public class GalleryFragment extends Fragment implements PickerAction{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
+
+    View view ;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         activity = getActivity();
-        mode = activity.getIntent().getIntExtra(PARAM_MODE, SImagePicker.MODE_AVATAR);
-        maxCount = activity.getIntent().getIntExtra(PARAM_MAX_COUNT, 1);
-        avatarFilePath = activity.getIntent().getStringExtra(CropImageActivity.PARAM_AVATAR_PATH);
-        rowCount = activity.getIntent().getIntExtra(PARAM_ROW_COUNT, 4);
-        showCamera = activity.getIntent().getBooleanExtra(PARAM_SHOW_CAMERA, false);
+        this.view = view;
+        mode = SImagePicker.MODE_AVATAR;
+        maxCount = 1000;
+        rowCount = 4;
         initUI(view);
     }
 
@@ -182,75 +141,74 @@ public class GalleryFragment extends Fragment implements PickerAction{
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         currentImageViewPager = (PreviewViewPager) view.findViewById(R.id.currentImageViewPager);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.onBackPressed();
-            }
-        });
+
         toolbar.setNavigationIcon(R.drawable.ic_general_cancel_left);
         Drawable drawable = toolbar.getNavigationIcon();
-        if(drawable != null) {
+        if (drawable != null) {
             drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable.mutate(), ContextCompat.getColor(activity,R.color.GoogleDesignDarkGreenColor));
+            DrawableCompat.setTint(drawable.mutate(), ContextCompat.getColor(activity, R.color.GoogleDesignDarkGreenColor));
             toolbar.setOverflowIcon(drawable);
         }
+
         layoutManager = new GridLayoutManager(activity, rowCount);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new GridInsetDecoration());
-        if (!showCamera) {
-            photoController.onCreate(activity, recyclerView, selectionChangeListener, maxCount, rowCount,
-                    mode);
-        } else {
-            capturePhotoHelper = new CapturePhotoHelper(this);
-            photoController.onCreate(activity, recyclerView, selectionChangeListener, maxCount, rowCount,
-                    mode, capturePhotoHelper);
-        }
+        photoController.onCreate(activity, recyclerView, selectionChangeListener, maxCount, rowCount, mode);
+
         photoController.setOnLoadCompleteListener(new PhotoController.OnLoadCompleteListener() {
             @Override
             public void loadCompleted() {
                 photoController.getAllPhoto(new PhotoLoadListener() {
                     @Override
                     public void onLoadComplete(ArrayList<Uri> photoUris) {
-                        previewAdapter = new PreviewAdapter(activity,photoUris);
+                        previewAdapter = new PreviewAdapter(activity, photoUris);
                         currentImageViewPager.setAdapter(previewAdapter);
                     }
 
                     @Override
                     public void onLoadError() {
-                        Log.d("LoadError","Eror");
+                        Log.d("LoadError", "Eror");
                     }
                 });
             }
         });
+
         photoController.loadAllPhoto(activity);
-
-        fileChooseInterceptor = activity.getIntent().getParcelableExtra(PARAM_FILE_CHOOSE_INTERCEPTOR);
-        ArrayList<String> selected = activity.getIntent().getStringArrayListExtra(PARAM_SELECTED);
-        if (!CollectionUtils.isEmpty(selected)) {
-            photoController.setSelectedPhoto(selected);
-        }
-        pickRes = activity.getIntent().getIntExtra(PARAM_CUSTOM_PICK_TEXT_RES, 0);
-        albumSpinner = (AppCompatSpinner) LayoutInflater.from(activity).inflate(R.layout.common_toolbar_spinner,
-                        toolbar, false);
-
+        albumSpinner = (AppCompatSpinner) LayoutInflater.from(activity).inflate(R.layout.common_toolbar_spinner, toolbar, false);
         toolbar.addView(albumSpinner);
+
         albumController.onCreate(activity, albumSpinner, directorySelectListener);
         albumController.loadAlbums();
     }
 
+    public void refreshLoader() {
+      activity.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+              albumController.loadAlbums();
+              //recyclerView.getAdapter().notifyDataSetChanged();
+          }
+      });
+    }
+
     private void setResultAndFinish(ArrayList<String> selected, boolean original, int resultCode) {
-        if (fileChooseInterceptor != null
+        /*if (fileChooseInterceptor != null
                 && !fileChooseInterceptor.onFileChosen(activity, selected, original, resultCode, this)) {
             // Prevent finish if interceptor returns false.
             return;
-        }
+        }*/
+
         proceedResultAndFinish(selected, original, resultCode);
     }
 
     @Override
     public void proceedResultAndFinish(ArrayList<String> selected, boolean original, int resultCode) {
 
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -275,7 +233,7 @@ public class GalleryFragment extends Fragment implements PickerAction{
                 setResultAndFinish(result, true, Activity.RESULT_OK);
             }
         } else if (requestCode == CapturePhotoHelper.CAPTURE_PHOTO_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_CANCELED) {
+           /* if (resultCode == Activity.RESULT_CANCELED) {
                 if (capturePhotoHelper.getPhoto() != null && capturePhotoHelper.getPhoto().exists()) {
                     capturePhotoHelper.getPhoto().delete();
                 }
@@ -292,8 +250,8 @@ public class GalleryFragment extends Fragment implements PickerAction{
                     ArrayList<String> result = new ArrayList<>();
                     result.add(photoFile.getAbsolutePath());
                     setResultAndFinish(result, true, Activity.RESULT_OK);
-                }
-            }
+                }*/
+            //}
         }
     }
 
@@ -318,10 +276,10 @@ public class GalleryFragment extends Fragment implements PickerAction{
 
     @Override
     public void onDestroy() {
-        if(null != albumController){
+        if (null != albumController) {
             albumController.onDestroy();
         }
-        if(null != photoController){
+        if (null != photoController) {
             photoController.onDestroy();
         }
         super.onDestroy();

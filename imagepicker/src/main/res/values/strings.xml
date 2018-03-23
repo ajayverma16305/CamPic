@@ -7,6 +7,6 @@
     <string name="general_original">Artwork</string>
     <string name="bracket_str">(%1$s)</string>
     <string name="bracket_num">(%1$d)</string>
-    <string name="error_maximun_nine_photos">Select up to (%1$d) photos</string>
+    <string name="error_maximun_nine_photos">Do you want to delete?</string>
     <string name="general_all_pictures">All photos</string>
 </resources>

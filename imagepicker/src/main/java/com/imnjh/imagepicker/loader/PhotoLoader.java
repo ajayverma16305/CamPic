@@ -13,8 +13,8 @@ import com.imnjh.imagepicker.model.Album;
  */
 public class PhotoLoader extends CursorLoader {
   private static final String[] PROJECTION = {MediaStore.Images.Media._ID,
-      MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA,
-      MediaStore.Images.Media.DATE_TAKEN,};
+                  MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA,
+                  MediaStore.Images.Media.DATE_TAKEN};
   private static final String ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC";
   private static final String SELECTION_SIZE = MediaStore.Images.Media.SIZE + " > ? or "
       + MediaStore.Images.Media.SIZE + " is null";

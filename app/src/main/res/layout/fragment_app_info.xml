@@ -1,8 +1,68 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/TextGrayColor"
     tools:context="com.androidteam.campic.MainModule.fragments.AppInfoFragment">
 
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp"
+        android:layout_above="@+id/mainLayout">
 
-</FrameLayout>
+        <TextView
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+        <TextView
+            android:id="@+id/versionNumberTextView"
+            android:textColor="@color/lightGray"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Version 1.0.1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:tint="@color/white"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash_app_logo_128"/>
+
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:textColor="@color/lightGray"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\@ 2018 CamPic Inc."
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

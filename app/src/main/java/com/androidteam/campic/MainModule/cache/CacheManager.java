@@ -47,14 +47,13 @@ public class CacheManager {
   public InnerCache getImageInnerCache() {
     if (imageInnerCache == null) {
       imageInnerCache = new InnerCache();
-
     }
     return imageInnerCache;
   }
 
   public LocalCache getImageCache() {
     if (imageCache == null) {
-      imageCache = new LocalCache("Image");
+      imageCache = new LocalCache("CamPicEdited");
     }
     return imageCache;
   }
