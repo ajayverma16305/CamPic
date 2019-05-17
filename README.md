@@ -17,3 +17,4 @@ See on Play store https://play.google.com/store/apps/details?id=com.androidteam.
 * Cropping feature.
 * Others.
 * No Ads.
+* Soft Music. 
